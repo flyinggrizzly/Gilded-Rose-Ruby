@@ -11,23 +11,23 @@ class GildedRose
     if @name != "Aged Brie" and @name != "Backstage passes to a TAFKAL80ETC concert"
       if @quality > 0
         if @name != "Sulfuras, Hand of Ragnaros"
-          @quality = @quality - 1
+          decrement_quality!
         end
       end
     else
       if @quality < 50
-        @quality = @quality + 1
+        increment_quality!
 
         if @name == "Backstage passes to a TAFKAL80ETC concert"
           if @days_remaining < 11
             if @quality < 50
-              @quality = @quality + 1
+              increment_quality!
             end
           end
 
           if @days_remaining < 6
             if @quality < 50
-              @quality = @quality + 1
+              increment_quality!
             end
           end
         end
@@ -43,7 +43,7 @@ class GildedRose
         if @name != "Backstage passes to a TAFKAL80ETC concert"
           if @quality > 0
             if @name != "Sulfuras, Hand of Ragnaros"
-              @quality = @quality - 1
+              decrement_quality!
             end
           end
         else
@@ -51,9 +51,17 @@ class GildedRose
         end
       else
         if @quality < 50
-          @quality = @quality + 1
+          increment_quality!
         end
       end
     end
+  end
+
+  def decrement_quality!
+    @quality = @quality - 1
+  end
+
+  def increment_quality!
+    @quality = @quality + 1
   end
 end
