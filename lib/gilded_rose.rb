@@ -18,14 +18,6 @@ class GildedRose
     @quality = item.quality
   end
 
-  def decrease_quality!
-    @quality = @quality - 1
-  end
-
-  def increase_quality!
-    @quality = @quality + 1
-  end
-
   def update_days_remaining!
     @days_remaining -= 1 unless @name == "Sulfuras, Hand of Ragnaros"
   end
