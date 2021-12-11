@@ -86,8 +86,8 @@ class GildedRose
   end
 
   class HandOfRagnaros < Item
-    def initialize(name:, days_remaining:, quality:)
-      super(name: name, days_remaining: days_remaining, quality: 80)
+    def quality
+      80
     end
 
     def tick
