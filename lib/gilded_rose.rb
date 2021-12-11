@@ -16,23 +16,23 @@ class GildedRose
     if @name != "Aged Brie" and @name != "Backstage passes to a TAFKAL80ETC concert"
       if @quality > 0
         if @name != "Sulfuras, Hand of Ragnaros"
-          decrement_quality!
+          decrease_quality!
         end
       end
     else
       if @quality < 50
-        increment_quality!
+        increase_quality!
 
         if @name == "Backstage passes to a TAFKAL80ETC concert"
           if @days_remaining < 10
             if @quality < 50
-              increment_quality!
+              increase_quality!
             end
           end
 
           if @days_remaining < 5
             if @quality < 50
-              increment_quality!
+              increase_quality!
             end
           end
         end
@@ -44,7 +44,7 @@ class GildedRose
         if @name != "Backstage passes to a TAFKAL80ETC concert"
           if @quality > 0
             if @name != "Sulfuras, Hand of Ragnaros"
-              decrement_quality!
+              decrease_quality!
             end
           end
         else
@@ -52,7 +52,7 @@ class GildedRose
         end
       else
         if @quality < 50
-          increment_quality!
+          increase_quality!
         end
       end
     end
@@ -65,11 +65,11 @@ class GildedRose
     end
   end
 
-  def decrement_quality!
+  def decrease_quality!
     @quality = @quality - 1
   end
 
-  def increment_quality!
+  def increase_quality!
     @quality = @quality + 1
   end
 
@@ -101,7 +101,10 @@ class GildedRose
     end
 
     def increase_quality!(by: 1)
-      @quality += by
+      new_quality = quality + by
+
+      # Quality cannot exceed 50
+      @quality = [ 50, new_quality ].min
     end
 
     def decrease_quality!(by: 1)
