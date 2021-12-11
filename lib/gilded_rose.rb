@@ -90,8 +90,10 @@ class BackstagePasses < Item
   end
 end
 
-class HandOfRagnaros < Struct.new(:name, :days_remaining, :quality, keyword_init: true)
-  def tick; end
+class HandOfRagnaros < Item
+  # Quality and days are constant
+  def tick_days!; end
+  def tick_quality!; end
 end
 
 class AgedBrie < Item
