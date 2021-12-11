@@ -244,7 +244,7 @@ RSpec.describe GildedRose do
       expect(gilded_rose).to have_attributes(days_remaining: -1, quality: 6)
     end
 
-    xit "on sell date at zero quality" do
+    it "on sell date at zero quality" do
       gilded_rose = GildedRose.new(name: "Conjured Mana Cake", days_remaining: 0, quality: 0)
 
       gilded_rose.tick
