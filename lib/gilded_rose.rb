@@ -111,49 +111,22 @@ class GildedRose
 
   class HandOfRagnaros < Item
     def tick
-      if @name != "Aged Brie" and @name != "Backstage passes to a TAFKAL80ETC concert"
-        if @quality > 0
-          if @name != "Sulfuras, Hand of Ragnaros"
-            decrease_quality!
-          end
-        end
-      else
-        if @quality < 50
-          increase_quality!
+      if @quality < 50
+        increase_quality!
 
-          if @name == "Backstage passes to a TAFKAL80ETC concert"
-            if @days_remaining < 10
-              if @quality < 50
-                increase_quality!
-              end
-            end
-
-            if @days_remaining < 5
-              if @quality < 50
-                increase_quality!
-              end
+        if @name == "Backstage passes to a TAFKAL80ETC concert"
+          if @days_remaining < 10
+            if @quality < 50
+              increase_quality!
             end
           end
-        end
-      end
 
-      if @days_remaining < 0
-        if @name != "Aged Brie"
-          if @name != "Backstage passes to a TAFKAL80ETC concert"
-            if @quality > 0
-              if @name != "Sulfuras, Hand of Ragnaros"
-                decrease_quality!
-              end
-            end
-          else
-            @quality = @quality - @quality
-          end
-        else
-          if @quality < 50
-            increase_quality!
-          end
-        end
-      end
+  class HandOfRagnaros < Item
+    def initialize(name:, days_remaining:, quality:)
+      super(name: name, days_remaining: days_remaining, quality: 80)
+    end
+
+    def tick
     end
   end
 
