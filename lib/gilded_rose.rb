@@ -8,8 +8,6 @@ class GildedRose
   end
 
   def tick
-    update_days_remaining!
-
     @item = Item.build(name: @name, days_remaining: @days_remaining, quality: @quality)
     @item.tick
 
@@ -18,13 +16,9 @@ class GildedRose
     @quality = item.quality
   end
 
-  def update_days_remaining!
-    @days_remaining -= 1 unless @name == "Sulfuras, Hand of Ragnaros"
-  end
-
   class Item
-    attr_reader :name, :days_remaining
-    attr_accessor :quality
+    attr_reader :name
+    attr_accessor :quality, :days_remaining
 
     def self.build(name:, days_remaining:, quality:)
       case name
@@ -48,6 +42,15 @@ class GildedRose
     end
 
     def tick
+      tick_days!
+      tick_quality!
+    end
+
+    def tick_days!
+      @days_remaining -= 1
+    end
+
+    def tick_quality!
       if days_remaining < 0
         decrease_quality!(by: 2)
       else
@@ -70,7 +73,7 @@ class GildedRose
   end
 
   class ConjuredMana < Item
-    def tick
+    def tick_quality!
       decrease_quality!(by: 2)
 
       decrease_quality!(by: 2) if days_remaining < 1
@@ -78,7 +81,7 @@ class GildedRose
   end
 
   class BackstagePasses < Item
-    def tick
+    def tick_quality!
       decrease_quality!(by: quality) and return if @days_remaining < 0
 
       increase_quality!
@@ -87,17 +90,12 @@ class GildedRose
     end
   end
 
-  class HandOfRagnaros < Item
-    def quality
-      80
-    end
-
-    def tick
-    end
+  class HandOfRagnaros < Struct.new(:name, :days_remaining, :quality, keyword_init: true)
+    def tick; end
   end
 
   class AgedBrie < Item
-    def tick
+    def tick_quality!
       return unless quality < 50
 
       if days_remaining < 0
