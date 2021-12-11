@@ -1,5 +1,5 @@
 class GildedRose
-  attr_reader :name, :days_remaining, :quality
+  attr_reader :name, :days_remaining, :quality, :item
 
   def initialize(name:, days_remaining:, quality:)
     @name = name
@@ -9,6 +9,9 @@ class GildedRose
 
   def tick
     update_days_remaining!
+
+    @item = Item.build(name: @name, days_remaining: @days_remaining, quality: @quality)
+    @item.tick
 
     if @name != "Aged Brie" and @name != "Backstage passes to a TAFKAL80ETC concert"
       if @quality > 0
@@ -53,6 +56,13 @@ class GildedRose
         end
       end
     end
+
+    @days_remaining = item.days_remaining
+    @name = item.name
+
+    if item.name == 'Aged Brie'
+      @quality = item.quality
+    end
   end
 
   def decrement_quality!
@@ -65,5 +75,49 @@ class GildedRose
 
   def update_days_remaining!
     @days_remaining -= 1 unless @name == "Sulfuras, Hand of Ragnaros"
+  end
+
+  class Item
+    attr_reader :name, :days_remaining
+    attr_accessor :quality
+
+    def self.build(name:, days_remaining:, quality:)
+      case name
+      when 'Aged Brie'
+        AgedBrie.new(name: name, days_remaining: days_remaining, quality: quality)
+      else
+        new(name: name, days_remaining: days_remaining, quality: quality)
+      end
+    end
+
+    def initialize(name:, days_remaining:, quality:)
+      @name = name
+      @days_remaining = days_remaining
+      @quality = quality
+    end
+
+    def tick
+      #raise NotImplementedError
+    end
+
+    def increase_quality!(by: 1)
+      @quality += by
+    end
+
+    def decrease_quality!(by: 1)
+      @quality -= by
+    end
+  end
+
+  class AgedBrie < Item
+    def tick
+      return unless quality < 50
+
+      if days_remaining < 0
+        increase_quality!(by: 2)
+      else
+        increase_quality!
+      end
+    end
   end
 end
