@@ -80,6 +80,8 @@ class GildedRose
   class ConjuredMana < Item
     def tick
       decrease_quality!(by: 2)
+
+      decrease_quality!(by: 2) if days_remaining < 1
     end
   end
 
