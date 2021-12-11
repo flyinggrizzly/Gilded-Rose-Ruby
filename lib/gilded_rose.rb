@@ -1,19 +1,18 @@
+require 'forwardable'
+
 class GildedRose
-  attr_reader :name, :days_remaining, :quality, :item
+  extend Forwardable
+
+  attr_reader :item
+
+  def_delegators :@item, :name, :days_remaining, :quality
 
   def initialize(name:, days_remaining:, quality:)
-    @name = name
-    @days_remaining = days_remaining
-    @quality = quality
+    @item = Item.build(name: name, days_remaining: days_remaining, quality: quality)
   end
 
   def tick
-    @item = Item.build(name: @name, days_remaining: @days_remaining, quality: @quality)
     @item.tick
-
-    @days_remaining = item.days_remaining
-    @name = item.name
-    @quality = item.quality
   end
 
   class Item
