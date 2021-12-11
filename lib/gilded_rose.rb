@@ -40,6 +40,8 @@ class GildedRose
         AgedBrie.new(name: name, days_remaining: days_remaining, quality: quality)
       when "Sulfuras, Hand of Ragnaros"
         HandOfRagnaros.new(name: name, days_remaining: days_remaining, quality: quality)
+      when "Backstage passes to a TAFKAL80ETC concert"
+        BackstagePasses.new(name: name, days_remaining: days_remaining, quality: quality)
       else
         new(name: name, days_remaining: days_remaining, quality: quality)
       end
@@ -109,17 +111,15 @@ class GildedRose
     end
   end
 
-  class HandOfRagnaros < Item
+  class BackstagePasses < Item
     def tick
-      if @quality < 50
-        increase_quality!
+      decrease_quality!(by: quality) and return if @days_remaining < 0
 
-        if @name == "Backstage passes to a TAFKAL80ETC concert"
-          if @days_remaining < 10
-            if @quality < 50
-              increase_quality!
-            end
-          end
+      increase_quality!
+      increase_quality! if @days_remaining < 10
+      increase_quality! if @days_remaining < 5
+    end
+  end
 
   class HandOfRagnaros < Item
     def initialize(name:, days_remaining:, quality:)
