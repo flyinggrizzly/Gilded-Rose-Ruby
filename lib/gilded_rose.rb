@@ -38,6 +38,8 @@ class GildedRose
       case name
       when 'Aged Brie'
         AgedBrie.new(name: name, days_remaining: days_remaining, quality: quality)
+      when "Sulfuras, Hand of Ragnaros"
+        HandOfRagnaros.new(name: name, days_remaining: days_remaining, quality: quality)
       else
         new(name: name, days_remaining: days_remaining, quality: quality)
       end
@@ -104,6 +106,54 @@ class GildedRose
 
     def decrease_quality!(by: 1)
       @quality -= by
+    end
+  end
+
+  class HandOfRagnaros < Item
+    def tick
+      if @name != "Aged Brie" and @name != "Backstage passes to a TAFKAL80ETC concert"
+        if @quality > 0
+          if @name != "Sulfuras, Hand of Ragnaros"
+            decrease_quality!
+          end
+        end
+      else
+        if @quality < 50
+          increase_quality!
+
+          if @name == "Backstage passes to a TAFKAL80ETC concert"
+            if @days_remaining < 10
+              if @quality < 50
+                increase_quality!
+              end
+            end
+
+            if @days_remaining < 5
+              if @quality < 50
+                increase_quality!
+              end
+            end
+          end
+        end
+      end
+
+      if @days_remaining < 0
+        if @name != "Aged Brie"
+          if @name != "Backstage passes to a TAFKAL80ETC concert"
+            if @quality > 0
+              if @name != "Sulfuras, Hand of Ragnaros"
+                decrease_quality!
+              end
+            end
+          else
+            @quality = @quality - @quality
+          end
+        else
+          if @quality < 50
+            increase_quality!
+          end
+        end
+      end
     end
   end
 
