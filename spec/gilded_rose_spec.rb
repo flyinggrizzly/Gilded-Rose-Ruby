@@ -220,7 +220,7 @@ RSpec.describe GildedRose do
   end
 
   context "Conjured Mana" do
-    xit "before sell date" do
+    it "before sell date" do
       gilded_rose = GildedRose.new(name: "Conjured Mana Cake", days_remaining: 5, quality: 10)
 
       gilded_rose.tick

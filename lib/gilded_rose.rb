@@ -42,6 +42,8 @@ class GildedRose
         HandOfRagnaros.new(name: name, days_remaining: days_remaining, quality: quality)
       when "Backstage passes to a TAFKAL80ETC concert"
         BackstagePasses.new(name: name, days_remaining: days_remaining, quality: quality)
+      when "Conjured Mana Cake"
+        ConjuredMana.new(name:name, days_remaining: days_remaining, quality: quality)
       else
         new(name: name, days_remaining: days_remaining, quality: quality)
       end
@@ -72,6 +74,12 @@ class GildedRose
       new_quality = quality - by
 
       @quality = [ 0, new_quality ].max
+    end
+  end
+
+  class ConjuredMana < Item
+    def tick
+      decrease_quality!(by: 2)
     end
   end
 
