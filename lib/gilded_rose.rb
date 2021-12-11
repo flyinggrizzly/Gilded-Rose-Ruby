@@ -13,56 +13,9 @@ class GildedRose
     @item = Item.build(name: @name, days_remaining: @days_remaining, quality: @quality)
     @item.tick
 
-    if @name != "Aged Brie" and @name != "Backstage passes to a TAFKAL80ETC concert"
-      if @quality > 0
-        if @name != "Sulfuras, Hand of Ragnaros"
-          decrease_quality!
-        end
-      end
-    else
-      if @quality < 50
-        increase_quality!
-
-        if @name == "Backstage passes to a TAFKAL80ETC concert"
-          if @days_remaining < 10
-            if @quality < 50
-              increase_quality!
-            end
-          end
-
-          if @days_remaining < 5
-            if @quality < 50
-              increase_quality!
-            end
-          end
-        end
-      end
-    end
-
-    if @days_remaining < 0
-      if @name != "Aged Brie"
-        if @name != "Backstage passes to a TAFKAL80ETC concert"
-          if @quality > 0
-            if @name != "Sulfuras, Hand of Ragnaros"
-              decrease_quality!
-            end
-          end
-        else
-          @quality = @quality - @quality
-        end
-      else
-        if @quality < 50
-          increase_quality!
-        end
-      end
-    end
-
     @days_remaining = item.days_remaining
     @name = item.name
-
-    if item.name == 'Aged Brie'
-      @quality = item.quality
-    end
+    @quality = item.quality
   end
 
   def decrease_quality!
@@ -97,7 +50,49 @@ class GildedRose
     end
 
     def tick
-      #raise NotImplementedError
+      if @name != "Aged Brie" and @name != "Backstage passes to a TAFKAL80ETC concert"
+        if @quality > 0
+          if @name != "Sulfuras, Hand of Ragnaros"
+            decrease_quality!
+          end
+        end
+      else
+        if @quality < 50
+          increase_quality!
+
+          if @name == "Backstage passes to a TAFKAL80ETC concert"
+            if @days_remaining < 10
+              if @quality < 50
+                increase_quality!
+              end
+            end
+
+            if @days_remaining < 5
+              if @quality < 50
+                increase_quality!
+              end
+            end
+          end
+        end
+      end
+
+      if @days_remaining < 0
+        if @name != "Aged Brie"
+          if @name != "Backstage passes to a TAFKAL80ETC concert"
+            if @quality > 0
+              if @name != "Sulfuras, Hand of Ragnaros"
+                decrease_quality!
+              end
+            end
+          else
+            @quality = @quality - @quality
+          end
+        else
+          if @quality < 50
+            increase_quality!
+          end
+        end
+      end
     end
 
     def increase_quality!(by: 1)
