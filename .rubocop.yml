@@ -1,12 +1,13 @@
 AllCops:
   TargetRubyVersion: 3.2.2
+  NewCops: enable
 
   Exclude:
     - "bin/**/*"
     - "spec/**/*"
     - "lib/gilded_rose.rb"
 
-Metrics/LineLength:
+Layout/LineLength:
   Max: 120
 
 # We like to use the hash rocket in rake files.
@@ -36,4 +37,7 @@ Style/ModuleFunction:
 
 # We are going to skip top-level class documentation for katas.
 Style/Documentation:
+  Enabled: false
+
+Style/SymbolArray:
   Enabled: false
